@@ -83,6 +83,14 @@ Keep this terminal open. If your version uses different startup options, follow 
 
 ## 6. Generate the batch
 
+Before **every batch**, confirm the local paths and language settings at the top of the script:
+
+- Check both character model paths, the reference audio path, spreadsheet path and output path.
+- Set `TEXT_LANG` to the language of the dialogue you are generating.
+- Set `PROMPT_LANG` to the language spoken in the reference audio, and make sure `REF_TEXT` matches that clip.
+
+Language settings must be checked just like local paths, especially when switching characters or localisation languages. They are not detected automatically from the spreadsheet, and both default to `ja` until you change them.
+
 Open a second terminal in this repository’s folder:
 
 ```sh
