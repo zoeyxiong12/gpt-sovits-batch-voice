@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+output/
+*.wav
+*.mp3
+*.pth
+*.ckpt
+~$*.xlsx
+.DS_Store
