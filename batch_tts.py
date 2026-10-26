@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """GPT-SoVITS batch generation script: reads the xlsx directly and generates
-one voice file per row from the "Japanese line" column.
+one voice file per row from the "Dialogue" column.
 Rows with an empty line are skipped; files that already exist are skipped,
 so the script can be stopped and re-run safely."""
 import os, sys, requests
@@ -13,6 +13,8 @@ REF_WAV    = r"D:\GPT-SoVITS\DATA\character_A\slicer_opt\TODO_reference.wav"
 REF_TEXT   = "TODO: transcript of the reference clip"
 XLSX_PATH  = os.path.join(os.path.dirname(os.path.abspath(__file__)), "voice_list.xlsx")
 OUT_DIR    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output")   # audio is saved here, in subfolders named by the "Output folder" column
+TEXT_LANG  = "ja"  # language to generate; choose a code supported by your API version
+PROMPT_LANG = "ja" # language spoken in the reference clip
 CANDIDATES = 1     # versions to generate per line; 1 = one version only
 # ================================
 
@@ -27,7 +29,7 @@ def read_rows():
     it = ws.iter_rows(values_only=True)
     header = [str(c).strip() if c is not None else "" for c in next(it)]
     idx = {h: i for i, h in enumerate(header)}
-    for need in ("Voice name", "Japanese line"):
+    for need in ("Voice name", "Dialogue"):
         if need not in idx:
             sys.exit(f'Column "{need}" not found in the header. Current header: {header}')
     for r in it:
@@ -35,7 +37,7 @@ def read_rows():
             i = idx.get(name)
             v = r[i] if i is not None and i < len(r) else None
             return "" if v is None else str(v).strip()
-        yield cell("Voice name"), cell("Japanese line"), cell("Output folder")
+        yield cell("Voice name"), cell("Dialogue"), cell("Output folder")
 
 def set_weights():
     if GPT_CKPT:
@@ -63,9 +65,9 @@ def main():
             if os.path.exists(path):
                 continue
             r = requests.post(f"{API_BASE}/tts", json={
-                "text": text, "text_lang": "ja",
+                "text": text, "text_lang": TEXT_LANG,
                 "ref_audio_path": REF_WAV,
-                "prompt_text": REF_TEXT, "prompt_lang": "ja",
+                "prompt_text": REF_TEXT, "prompt_lang": PROMPT_LANG,
                 "top_k": 15, "top_p": 1, "temperature": 1,
                 "text_split_method": "cut0",
                 "speed_factor": 1.0, "seed": -1,

@@ -14,7 +14,7 @@ This repository contains a sanitised version of the production script and an emp
 
 Install [GPT-SoVITS](https://github.com/RVC-Boss/GPT-SoVITS) separately and prepare compatible GPT and SoVITS character weights, a reference audio clip and its exact transcript. Confirm that the character works in GPT-SoVITS before running a full batch.
 
-The template is configured for **Japanese dialogue and Japanese reference audio**. Other languages require changing `text_lang` and `prompt_lang` in the script to values supported by your GPT-SoVITS version. Renaming a spreadsheet header alone does not change the language.
+The spreadsheet uses a language-neutral `Dialogue` header. Set `TEXT_LANG` to the language you want to generate and `PROMPT_LANG` to the language spoken in your reference clip. Both default to `ja` (Japanese); change them for other languages using codes supported by your installed GPT-SoVITS API. The two settings describe different inputs and do not have to be the same. The spreadsheet header does not select the language.
 
 ## 2. Install the script dependencies
 
@@ -42,6 +42,8 @@ Open `batch_tts.py` in a text editor. Replace these values at the top:
 | `GPT_CKPT` | Full local path to the character’s GPT `.ckpt` file. |
 | `REF_WAV` | Full local path to the reference audio clip. |
 | `REF_TEXT` | The exact words spoken in that reference clip. |
+| `TEXT_LANG` | Language code for the dialogue to generate. |
+| `PROMPT_LANG` | Language code for the reference clip and transcript. |
 
 Replace all `TODO` values before running. When switching characters, update both model paths and the reference clip/transcript together.
 
@@ -54,7 +56,7 @@ Keep the headers exactly as supplied and fill the active worksheet:
 | Header | Input |
 | --- | --- |
 | `Voice name` | The output file name without `.wav`. |
-| `Japanese line` | The dialogue to generate. |
+| `Dialogue` | The dialogue to generate. |
 | `Output folder` | Optional relative subfolder inside `output`, such as `interaction`. Leave blank to save directly in `output`. |
 
 Copy the file names and dialogue together from your source list so each row remains correctly paired. A row without a voice name or dialogue is skipped.
