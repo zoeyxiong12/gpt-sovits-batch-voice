@@ -7,7 +7,7 @@ This repository contains a sanitised version of the production script and an emp
 ## Files
 
 - `batch_tts.py` — reads the spreadsheet, calls a local GPT-SoVITS API and saves the audio.
-- `voice_list.xlsx` — a blank workbook with the required headers.
+- `voice_lines_template.xlsx` — a blank workbook with the required headers.
 - `requirements.txt` — dependencies for the batch script.
 
 ## 1. Prepare GPT-SoVITS
@@ -47,7 +47,7 @@ Open `batch_tts.py` in a text editor. Replace these values at the top:
 
 Replace all `TODO` values before running. When switching characters, update both model paths and the reference clip/transcript together.
 
-`XLSX_PATH` defaults to `voice_list.xlsx` beside the script. `OUT_DIR` defaults to an `output` folder beside the script. Change these only if you want different locations. `API_BASE` defaults to `http://127.0.0.1:9880`; it must match your local service. Keep `CANDIDATES = 1` for one file per line.
+`XLSX_PATH` defaults to `voice_lines_template.xlsx` beside the script. `OUT_DIR` defaults to an `output` folder beside the script. Change these only if you want different locations. `API_BASE` defaults to `http://127.0.0.1:9880`; it must match your local service. Keep `CANDIDATES = 1` for one file per line.
 
 ## 4. Fill in Excel locally
 
